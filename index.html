@@ -19,8 +19,9 @@
             --font-testo: 'Architects Daughter', cursive;
         }
 
-        body, html {
-            height: 100%;
+        html, body {
+            min-height: 100vh;
+            height: auto;
             margin: 0;
             background-color: var(--colore-sfondo);
             font-family: var(--font-testo);
@@ -29,7 +30,10 @@
             justify-content: center;
             align-items: center;
             text-align: center;
-            overflow: hidden;
+            overflow-y: hidden; /* permette lo scroll verticale su mobile */
+            -webkit-overflow-scrolling: touch;
+            padding: 20px 0; /* spazio sopra/sotto per evitare clipping */
+            box-sizing: border-box;
         }
 
         .card-container {
@@ -51,7 +55,7 @@
 
         h1 {
             font-family: var(--font-titoli);
-            font-size: 5em;
+            font-size: clamp(3.5rem, 15vw, 10em); /* riduce automaticamente su schermi piccoli */
             line-height: 0.9;
             margin: 0;
             color: var(--colore-testo);
@@ -157,6 +161,32 @@
             z-index: 99;
         }
 
+        /* Regole specifiche per telefoni / schermi stretti o bassi */
+        @media (max-width: 480px), (max-height: 700px) {
+            html, body {
+                align-items: flex-start; /* evita il centering verticale che può sembrare "tagliare" */
+                padding-top: 28px;
+                padding-bottom: 28px;
+            }
+
+            .card-container {
+                padding: 20px;
+                width: 96%;
+            }
+
+            .forbidden-btn {
+                font-size: 1.4rem;
+                padding: 12px 18px;
+            }
+
+            p.date {
+                font-size: 1.6rem;
+            }
+
+            .fun-text {
+                font-size: 2rem;
+            }
+        }
     </style>
 </head>
 <body>
