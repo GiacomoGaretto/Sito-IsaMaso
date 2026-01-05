@@ -1,300 +1,433 @@
 <!DOCTYPE html>
 <html lang="it">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Andrea & Isabella - Work in Progress</title>
-    
-    <link href="https://fonts.googleapis.com/css2?family=Amatic+SC:wght@700&family=Architects+Daughter&display=swap" rel="stylesheet">
+    <title>Andrea & Isabella</title>
 
-    <style>
-        /* --- COLORI UFFICIALI (dalle tue immagini) --- */
-        :root {
-            --colore-sfondo: #F5EFED;    /* Panna/Crema */
-            --colore-testo: #611408;     /* Marrone scuro */
-            --colore-accento: #F0814A;   /* Arancione */
-            --colore-nero: #191716;      /* Nero quasi nero */
-            
-            --font-titoli: 'Amatic SC', cursive;
-            --font-testo: 'Architects Daughter', cursive;
-        }
-
-        html, body {
-            min-height: 100vh;
-            height: auto;
-            margin: 0;
-            background-color: var(--colore-sfondo);
-            font-family: var(--font-testo);
-            color: var(--colore-testo);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
-            overflow-y: hidden; /* permette lo scroll verticale su mobile */
-            -webkit-overflow-scrolling: touch;
-            padding: 20px 0; /* spazio sopra/sotto per evitare clipping */
-            box-sizing: border-box;
-        }
-
-        .card-container {
-            position: relative;
-            padding: 40px;
-            max-width: 500px;
-            width: 90%;
-            z-index: 10;
-        }
-
-        .orange-frame {
-            border: 4px solid var(--colore-accento);
-            padding: 30px;
-            margin: 20px 0;
-            position: relative;
-            background-color: transparent;
-            transition: transform 0.3s ease;
-        }
-
-        h1 {
-            font-family: var(--font-titoli);
-            font-size: clamp(3.5rem, 15vw, 10em); /* riduce automaticamente su schermi piccoli */
-            line-height: 0.9;
-            margin: 0;
-            color: var(--colore-testo);
-        }
-
-        .names-separator {
-            font-size: 0.5em;
-            vertical-align: middle;
-            color: var(--colore-accento);
-        }
-
-        p.date {
-            font-family: var(--font-titoli);
-            font-size: 2.5em;
-            margin-top: 10px;
-            color: var(--colore-nero);
-            font-weight: bold;
-        }
-
-        p.teaser {
-            font-size: 1.2em;
-            margin-bottom: 30px;
-            color: var(--colore-testo);
-            min-height: 1.5em; /* Mantiene lo spazio fermo */
-        }
-
-        /* --- IL BOTTONE DINAMICO --- */
-        .forbidden-btn {
-            background-color: var(--colore-accento);
-            color: var(--colore-sfondo);
-            border: none;
-            padding: 15px 30px;
-            font-family: var(--font-titoli);
-            font-size: 2em;
-            font-weight: bold;
-            cursor: pointer;
-            box-shadow: 4px 4px 0px var(--colore-testo);
-            transition: all 0.2s ease;
-            transform: rotate(-2deg);
-            white-space: normal; /* Permette al testo di andare a capo se lungo */
-            line-height: 1;
-            max-width: 100%;
-        }
-
-        .forbidden-btn:hover {
-            transform: rotate(0deg) scale(1.05);
-            box-shadow: 2px 2px 0px var(--colore-testo);
-        }
-
-        .forbidden-btn:active {
-            transform: translateY(4px);
-            box-shadow: 0px 0px 0px transparent;
-        }
-
-        /* Classe per far tremare il bottone quando insisti */
-        .shake-animation {
-            animation: shake 0.5s;
-            animation-iteration-count: 1;
-        }
-
-        @keyframes shake {
-            0% { transform: translate(1px, 1px) rotate(0deg); }
-            10% { transform: translate(-1px, -2px) rotate(-1deg); }
-            20% { transform: translate(-3px, 0px) rotate(1deg); }
-            30% { transform: translate(3px, 2px) rotate(0deg); }
-            40% { transform: translate(1px, -1px) rotate(1deg); }
-            50% { transform: translate(-1px, 2px) rotate(-1deg); }
-            60% { transform: translate(-3px, 1px) rotate(0deg); }
-            70% { transform: translate(3px, 1px) rotate(-1deg); }
-            80% { transform: translate(-1px, -1px) rotate(1deg); }
-            90% { transform: translate(1px, 2px) rotate(0deg); }
-            100% { transform: translate(1px, -2px) rotate(-1deg); }
-        }
-
-        #surprise-message {
-            display: none;
-            margin-top: 20px;
-        }
-
-        .fun-text {
-            font-family: var(--font-titoli);
-            font-size: 2.5em;
-            color: var(--colore-accento);
-            animation: wiggle 2s linear infinite;
-        }
-
-        @keyframes wiggle {
-            0%, 7% { transform: rotateZ(0); }
-            15% { transform: rotateZ(-5deg); }
-            20% { transform: rotateZ(10deg); }
-            25% { transform: rotateZ(-10deg); }
-            30% { transform: rotateZ(6deg); }
-            35%, 100% { transform: rotateZ(0); }
-        }
-
-        #confetti-canvas {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-            z-index: 99;
-        }
-
-        /* Regole specifiche per telefoni / schermi stretti o bassi */
-        @media (max-width: 480px), (max-height: 700px) {
-            html, body {
-                align-items: flex-start; /* evita il centering verticale che può sembrare "tagliare" */
-                padding-top: 28px;
-                padding-bottom: 28px;
-            }
-
-            .card-container {
-                padding: 20px;
-                width: 96%;
-            }
-
-            .forbidden-btn {
-                font-size: 1.4rem;
-                padding: 12px 18px;
-            }
-
-            p.date {
-                font-size: 1.6rem;
-            }
-
-            .fun-text {
-                font-size: 2rem;
-            }
-        }
-    </style>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Amatic+SC:wght@700&family=Architects+Daughter&family=Montserrat:wght@300;400;600&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
 
-    <canvas id="confetti-canvas"></canvas>
+    <nav id="side-nav" class="side-nav">
+        <ul></ul>
+    </nav>
 
-    <div class="card-container">
-        <h1>ANDREA <br> <span class="names-separator">e</span> <br> ISABELLA</h1>
-
-        <div class="orange-frame" id="frameBox">
-            <p class="teaser" id="teaserText">Per nessuna ragione la mondo devi premere il pulsante</p>
-            
-            <button class="forbidden-btn" id="theButton">NON PREMERE</button>
-
-            <div id="surprise-message">
-                <p class="fun-text">CI SPOSIAMOOOOOOO!</p>
-                <p style="font-size: 1.1em;">(ma il sito non è ancora pronto, ancora un po' di pazienza)</p>
-                <p>Tornate a trovarci presto!</p>
-            </div>
+    <div class="layer-cream">
+        <div class="sync-header" id="header-cream">
+            <div class="names-text">ISABELLA <span class="separator">&</span> ANDREA</div>
+            <div class="date-subtitle">13 GIUGNO 2026</div>
         </div>
-
-        <p class="date">13 GIUGNO 2026</p>
-        <p style="font-size: 0.9em; margin-top:-15px;">TORINO</p>
+        <div class="scroll-cta" id="cta-arrow" onclick="startStory()">
+            <div class="cta-circle"><i class="arrow-icon"></i></div>
+        </div>
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
+    <div class="layer-orange" id="layer-orange"></div>
 
-    <script>
-        const button = document.getElementById('theButton');
-        const message = document.getElementById('surprise-message');
-        const frameBox = document.getElementById('frameBox');
-        const myCanvas = document.getElementById('confetti-canvas');
-        const teaserText = document.getElementById('teaserText');
+    <div class="logo-layer" id="logo-layer">
+        <div class="sync-header" id="header-orange">
+            <div class="names-text">ISABELLA <span class="separator">&</span> ANDREA</div>
+        </div>
+    </div>
 
-        // Contatore dei click
-        let clickCount = 0;
+    <div class="scroll-track"></div>
 
-        var myConfetti = confetti.create(myCanvas, {
-            resize: true,
-            useWorker: true
-        });
+    <div class="content-container">
+        <div class="story-content" id="story-content">
 
-        button.addEventListener('click', function() {
-            clickCount++;
+            <section class="track-section theme-dark" id="sec-intro" data-title="Benvenuti">
 
-            // --- LOGICA DEI MESSAGGI ---
-            if (clickCount === 1) {
-                // Primo avvertimento
-                button.innerText = "NO DAVVERO, NON LO FARE!!!";
-                shakeButton();
-            } 
-            else if (clickCount === 2) {
-                // Secondo avvertimento
-                button.innerText = "PERCHÉ CONTINUI?!?!";
-                shakeButton();
-            } 
-            else if (clickCount >= 3) {
-                // --- ESPLOSIONE FINALE ---
-                triggerExplosion();
-            }
-        });
+                <div id="svg-cloud-wrapper" data-src="images/nuvole.svg"></div>
 
-        function shakeButton() {
-            // Rimuove e riaggiunge la classe per riavviare l'animazione
-            button.classList.remove("shake-animation");
-            void button.offsetWidth; // Trucco magico per forzare il riavvio CSS
-            button.classList.add("shake-animation");
-        }
+                <div class="container-limit reveal-block"
+                    style="text-align: center; max-width: 800px; position: relative; z-index: 10;">
+                    <span class="hand-note" style="font-size: 2.5rem;">L'inizio del nostro cammino insieme</span>
+                    <p style="font-size: 1.6rem;">
+                        Per il nostro matrimonio abbiamo deciso di trasformare il vostro dono in un'opera concreta.
+                    </p>
+                </div>
+            </section>
 
-        function triggerExplosion() {
-            // 1. Parte il confettata show
-            var duration = 3 * 1000;
-            var animationEnd = Date.now() + duration;
-            var defaults = { startVelocity: 30, spread: 360, ticks: 60, zIndex: 0 };
+            <section class="track-section theme-dark" id="sec-monviso" data-title="Monviso">
+                <div class="container-limit">
+                    <div class="grid-split">
+                        <div class="text-col">
+                            <span class="hand-note">Radici di un progetto</span>
+                            <h2>MONVISO, 2640M s.l.m.</h2>
+                            <p>Da tempo coltiviamo il desiderio di dare forma a un progetto nostro; il
+                                matrimonio ci ha offerto il momento giusto, e dalla montagna è arrivata l’occasione.
+                                <br> Lo
+                                scorso Settembre, appena fidanzati e pieni di entusiasmo, in una delle nostre camminate
+                                abbiamo raggiunto il rifugio <strong>Quintino Sella.</strong>
+                            </p>
+                        </div>
+                        <div class="visual-box" id="monviso-box"></div>
+                    </div>
+                </div>
 
-            function randomInRange(min, max) {
-              return Math.random() * (max - min) + min;
-            }
+            </section>
 
-            var interval = setInterval(function() {
-              var timeLeft = animationEnd - Date.now();
-              if (timeLeft <= 0) return clearInterval(interval);
+            <section class="track-section theme-light" id="sec-incontro" data-title="L'Incontro">
+                <div class="container-limit">
+                    <div class="grid-split">
+                        <div class="visual-box reveal-block">
+                            <img src="https://www.cecyonlus.org/wp-content/uploads/2018/01/lakpa-temba-sherpa-nepal-666x500.jpg"
+                                style="width: 100%; height: 100%; object-fit: cover;">
+                        </div>
+                        <div class="text-col reveal-block delay-100">
+                            <span class="hand-note">Un incontro</span>
+                            <h2>AL RIFUGIO</h2>
+                            <p>
+                                Lì, mentre il nostro sguardo abbracciava la pianura Padana, abbiamo fatto un incontro
+                                importante: Lakpa Temba e la sua missione.</p>
+                            <p>
+                                Lakpa è uno <strong>sherpa nepalese</strong> che da anni durante la stagione estiva
+                                lavora al Quintino
+                                Sella. È fondatore, assieme al cognato e alla moglie, della <a
+                                    href="https://monvisonepalfoundation.org/" target="_blank" class="text-link">Monviso
+                                    Nepal Foundation</a>.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </section>
 
-              var particleCount = 50 * (timeLeft / duration);
-              
-              // Colori basati sulla tua palette: Arancione, Marrone Scuro, Nero
-              myConfetti(Object.assign({}, defaults, { 
-                  particleCount, 
-                  origin: { x: randomInRange(0.1, 0.3), y: Math.random() - 0.2 },
-                  colors: ['#F0814A', '#611408', '#191716'] 
-              }));
-              myConfetti(Object.assign({}, defaults, { 
-                  particleCount, 
-                  origin: { x: randomInRange(0.7, 0.9), y: Math.random() - 0.2 },
-                  colors: ['#F0814A', '#611408', '#F5EFED'] 
-              }));
-            }, 250);
+            <section class="track-section theme-dark" id="sec-sguardo" data-title="Il Racconto">
+                <div class="container-limit">
+                    <div class="grid-split grid-reverse">
+                        <div class="visual-box reveal-block">
+                            <img src=images/img1.jpg style="width: 100%; height: 100%; object-fit: cover;"
+                                alt="Placeholder Bambini">
+                        </div>
+                        <div class="text-col reveal-block delay-100">
+                            <span class="hand-note">Uno sguardo verso il Nepal</span>
+                            <h2>EDUCAZIONE</h2>
+                            <p>
+                                Lakpa racconta del lavoro della Monviso Nepal Foundation: un’organizzazione non profit
+                                che opera nel nord-est del Nepal, nel distretto del Solukhumbu, per sostenere
+                                istruzione, salute e sviluppo rurale.
+                            </p>
+                            <p>
+                                L’obiettivo è semplice e potente: incoraggiare le famiglie a garantire ai propri figli
+                                un’educazione di qualità.
+                            </p>
+                            <p><strong>Perché il futuro, spesso, nasce da una scuola.</strong></p>
+                        </div>
+                    </div>
+                </div>
+            </section>
 
-            // 2. Nasconde bottone e mostra sorpresa
-            button.style.display = 'none';
-            teaserText.style.display = 'none';
-            message.style.display = 'block';
-            
-            // Zoom in leggero del riquadro
-            frameBox.style.transform = "scale(1.1)";
-            setTimeout(() => { frameBox.style.transform = "scale(1)"; }, 300);
-        }
-    </script>
+            <section class="track-section theme-light" id="sec-sogno" data-title="Il Sogno">
+                <div class="container-limit">
+                    <div class="grid-split">
+                        <div class="visual-box reveal-block">
+                            <img src="images/img2.jpg" style="width: 100%; height: 100%; object-fit: cover;"
+                                alt="Placeholder Montagna">
+                        </div>
+                        <div class="text-col reveal-block delay-100">
+                            <span class="hand-note">L’idea prende forma</span>
+                            <h2>CONTRIBUIRE</h2>
+                            <p>Durante la discesa, colpiti dalla personalità concreta di Lakpa e dal suo senso di
+                                comunità, si alimenta in noi il desiderio di contribuire a uno dei progetti che ci erano
+                                appena stati raccontati.
+                            </p>
+                            <p>Cercando informazioni, abbiamo scoperto che la Monviso Nepal Foundation collabora con una
+                                realtà italiana, nata a pochi chilometri da casa.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </section>
 
+            <section class="track-section theme-dark" id="sec-cecy" data-title="Cecy Onlus">
+                <div class="container-limit">
+                    <div class="grid-split grid-reverse">
+                        <div class="visual-box reveal-block">
+                            <img src="https://www.cecyonlus.org/wp-content/uploads/2015/11/logo_trasparent_512x512.png"
+                                style="width: 100%; height: 100%; object-fit: cover;" alt="Placeholder Ponte/Mani">
+                        </div>
+                        <div class="text-col reveal-block delay-100">
+                            <span class="hand-note">Un ponte tra il Piemonte e il Nepal</span>
+                            <h2><a href="https://www.cecyonlus.org/" target="_blank"
+                                    style="color:white; text-decoration:none; border-bottom: 2px solid white;">CECY
+                                    ONLUS</a></h2>
+                            <p>
+                                La collaborazione passa attraverso Cecy Onlus. Un’associazione nata dal dolore di una
+                                perdita, trasformato nel desiderio di fare qualcosa di concreto per il popolo nepalese.
+                            </p>
+                            <p>
+                                I progetti di Cecy nascono sempre da due condizioni precise: la conoscenza diretta delle
+                                persone e un bisogno espresso dalla comunità locale.
+                            </p>
+                            <p class="hand-note" style="font-size: 1.4rem; margin-top: 10px;">Nulla viene imposto. Tutto
+                                viene condiviso.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="track-section theme-light" id="sec-progetto" data-title="Il Progetto">
+                <div class="container-limit">
+                    <div class="grid-split">
+                        <div class="visual-box reveal-block map-container">
+                            <iframe
+                                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3024484.4104690515!2d82.07101864981074!3d28.31528854866343!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x39e93ff91b92342b%3A0xf559ae9bdbb2432b!2sSalleri%2C%2056000%2C%20Nepal!5e0!3m2!1sen!2sit!4v1767350208698!5m2!1sen!2sit"
+                                width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy"
+                                referrerpolicy="no-referrer-when-downgrade"></iframe>
+                        </div>
+                        <div class="text-col reveal-block delay-100">
+                            <span class="hand-note">Un progetto che nasce dal Nepal</span>
+                            <h2>UN TETTO PER LA SCUOLA A UN PASSO DALLE NUVOLE</h2>
+                            <p>
+                                Abbiamo organizzato un incontro con Paolo, fondatore assieme alla moglie di Cecy Onlus,
+                                che ci ha
+                                raccontato un progetto speciale.
+                                Un’idea nata direttamente in Nepal, da chi vive quei territori ogni giorno.
+                            </p>
+                            <p>
+                                Nel basso Solukhumbu molte ragazze non possono continuare gli studi: le scuole superiori
+                                sono solo a Salleri e senza un alloggio sicuro, studiare diventa impossibile.
+                            </p>
+                            <p>Da qui nasce il progetto di un <strong>ostello–college femminile</strong>.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="track-section theme-dark" id="sec-dettagli" data-title="Il Futuro">
+                <div class="container-limit">
+                    <div class="grid-split grid-reverse">
+                        <div class="visual-box reveal-block">
+                            <img src=images/img3.jpg style="width: 100%; height: 100%; object-fit: cover;"
+                                alt="Placeholder Studio">
+                        </div>
+                        <div class="text-col reveal-block delay-100">
+                            <span class="hand-note">Casa, studio e futuro</span>
+                            <h2>L'OSTELLO FEMMINILE</h2>
+                            <p>L’ostello offrirà alle ragazze provenienti dai villaggi rurali:</p>
+                            <ul class="styled-list">
+                                <li>Un alloggio sicuro per 40 studentesse</li>
+                                <li>Una cucina condivisa</li>
+                                <li>Uno spazio per studiare</li>
+                            </ul>
+                            <p>
+                                Un luogo che permetta di completare la scuola superiore e, quando possibile, accedere
+                                all’università. Un passo concreto per ridurre l’abbandono scolastico, i matrimoni
+                                precoci e aprire nuove possibilità di autonomia.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="track-section theme-light" id="sec-aiuto" data-title="Il Tuo Aiuto">
+                <div class="container-limit">
+
+                    <div class="grid-split">
+                        <div class="visual-box reveal-block">
+                            <img src="images/img4.1.jpg" style="width: 100%; height: 100%; object-fit: cover;"
+                                alt="Dono">
+                        </div>
+
+                        <div class="text-col reveal-block delay-100">
+                            <span class="hand-note" style="color: var(--accent);">La nostra gioia, condivisa</span>
+                            <h2>AIUTACI A REALIZZARLO</h2>
+                            <p>Ogni dono ricevuto per il nostro matrimonio sarà devoluto alla realizzazione
+                                dell’ostello-college femminile di Salleri.<br> Il progetto complessivo supera i 300.000
+                                euro; il nostro desiderio, grazie alla vostra generosità, è contribuire coprendo i costi
+                                dell’arredamento (letti, armadi, cucina, ecc.), stimati in circa 20.000 euro.<br> È una
+                                cifra importante, ma crediamo profondamente che con tanti piccoli gesti si possano
+                                raggiungere grandi traguardi.
+                            </p>
+                            <p style="font-weight: bold; margin-top: 20px;">
+                                Aiutaci a diffondere questa iniziativa perché possa arrivare il più lontano possibile!
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="bank-full-row reveal-block delay-50">
+
+                        <button id="btn-toggle-bank" class="btn-wedding">
+                            Mostra coordinate bancarie
+                        </button>
+
+                        <div id="bank-details-container" class="bank-drawer centered-drawer">
+
+                            <div class="wedding-bank-card">
+                                <div class="wb-info">
+                                    <span class="wb-label">Beneficiario</span>
+                                    <span class="wb-value" id="val-beneficiario">Masoero Andrea e Cavaglià
+                                        Isabella</span>
+                                </div>
+                                <button class="wb-copy" onclick="copyToClipboard('val-beneficiario', this)">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                                        <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                                    </svg>
+                                </button>
+                            </div>
+
+                            <div class="wedding-bank-card">
+                                <div class="wb-info">
+                                    <span class="wb-label">IBAN</span>
+                                    <span class="wb-value wb-mono" id="val-iban">IT14S0301503200000004736466</span>
+                                </div>
+                                <button class="wb-copy" onclick="copyToClipboard('val-iban', this)">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                                        <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                                    </svg>
+                                </button>
+                            </div>
+
+                            <div class="wedding-bank-card highlight">
+                                <div class="wb-info">
+                                    <span class="wb-label" style="color: white;">Causale</span>
+                                    <span class="wb-value" id="val-causale" style="color: white;">Regalo di
+                                        matrimonio</span>
+                                </div>
+                                <button class="wb-copy white" onclick="copyToClipboard('val-causale', this)">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                                        <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                                    </svg>
+                                </button>
+                            </div>
+
+                        </div>
+                    </div>
+
+                </div>
+            </section>
+
+            <section class="track-section theme-dark" id="sec-dettagli" data-title="Il viaggio">
+                <div class="container-limit">
+                    <div class="grid-split grid-reverse">
+                        <div class="visual-box reveal-block">
+                            <img src=images/img5.jpg style="width: 100%; height: 100%; object-fit: cover;"
+                                alt="Placeholder Studio">
+                        </div>
+                        <div class="text-col reveal-block delay-200">
+                            <span class="hand-note">Dalle Alpi…</span>
+                            <h2>ALL’HIMALAYA</h2>
+                            <p> Il 15 Luglio partiremo per il Nepal per visitare le zone rurali di cui vi abbiamo
+                                parlato, e calarci in prima persona nelle realtà di questo paese per noi affascinante.
+                                Speriamo di riuscire a intercettare l’inizio dei lavori e toccare con mano l’avvio di
+                                questo progetto.
+                            </p>
+                            <p>
+                                Saremo felici di condividere con voi gli sviluppi di questa avventura! Per chiunque
+                                fosse curioso o desiderasse approfondire i dettagli e gli sviluppi del progetto:
+                                scriveteci e scaricate il pdf!
+                            </p>
+                            <p class="hand-note" style=" margin-top: 10px;">Ancora Grazie!!!</p>
+                        </div>
+                    </div>
+                    <div class="bank-full-row reveal-block delay-50">
+                        <a href="images/Progetto campus Salleri (ita).pdf" id="btn-toggle-pdf" class="btn-pdf">
+                            Scarica il pdf!
+                        </a>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+
+
+        <section class="wedding-rsvp-section  track-section theme-light" data-title="rsvp" id="rsvp">
+            <div class="container-limit" style="max-width: 800px;">
+
+                <div style="text-align: center; margin-bottom: 40px;">
+                    <span class="hand-note" style="color: var(--accent); font-size: 2.5rem;">Rispondeteci, s'il vous
+                        plaît</span>
+                    <h2 style="color: var(--text-main);">SARAI DEI NOSTRI?</h2>
+                </div>
+
+                <form id="rsvp-form" name="submit-to-google-sheet">
+
+                    <div class="form-grid-2">
+                        <div class="wedding-input-card">
+                            <label class="wic-label">Nome</label>
+                            <input type="text" name="Nome" required placeholder="Mario" class="wic-input">
+                        </div>
+                        <div class="wedding-input-card">
+                            <label class="wic-label">Cognome</label>
+                            <input type="text" name="Cognome" required placeholder="Rossi" class="wic-input">
+                        </div>
+                    </div>
+
+                    <div class="wedding-input-card">
+                        <label class="wic-label">Email</label>
+                        <input type="email" name="Email" required placeholder="mario.rossi@email.com" class="wic-input">
+                    </div>
+
+                    <div class="wedding-input-card">
+                        <label class="wic-label">Parteciperai?</label>
+                        <select name="Partecipazione" required class="wic-input wic-select">
+                            <option value="" disabled selected>Seleziona una risposta...</option>
+                            <option value="Si">Assolutamente SÌ! 🎉</option>
+                            <option value="No">Purtroppo non potrò esserci 😢</option>
+                        </select>
+                    </div>
+
+                    <div class="form-grid-2">
+                        <div class="wedding-check-card">
+                            <span class="wic-label">Sei Vegetariano?</span>
+                            <div class="radio-group">
+                                <label class="radio-option">
+                                    <input type="radio" name="Vegetariano" value="Si">
+                                    <span class="radio-chip">Sì</span>
+                                </label>
+                                <label class="radio-option">
+                                    <input type="radio" name="Vegetariano" value="No" checked>
+                                    <span class="radio-chip">No</span>
+                                </label>
+                            </div>
+                        </div>
+                        <div class="wedding-check-card">
+                            <span class="wic-label">Sei Vegano?</span>
+                            <div class="radio-group">
+                                <label class="radio-option">
+                                    <input type="radio" name="Vegano" value="Si">
+                                    <span class="radio-chip">Sì</span>
+                                </label>
+                                <label class="radio-option">
+                                    <input type="radio" name="Vegano" value="No" checked>
+                                    <span class="radio-chip">No</span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="wedding-input-card">
+                        <label class="wic-label">Intolleranze o Allergie?</label>
+                        <textarea name="Allergie" rows="2" placeholder="Nessuna (oppure scrivi qui...)"
+                            class="wic-input"></textarea>
+                    </div>
+
+                    <div style="margin-top: 30px; text-align: center;">
+                        <button type="submit" id="btn-submit" class="btn-wedding"
+                            style="width: 100%; max-width: 100%; font-size: 2rem; padding: 12px;">
+                            CONFERMA PRESENZA
+                        </button>
+                    </div>
+
+                    <p id="form-message"
+                        style="text-align: center; margin-top: 15px; font-family: var(--font-hand); color: var(--accent); font-size: 1.2rem; min-height: 25px;">
+                    </p>
+
+                </form>
+            </div>
+        </section>
+    </div>
+
+    <script src="script.js"></script>
 </body>
+
 </html>
