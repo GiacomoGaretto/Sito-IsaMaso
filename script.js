@@ -326,45 +326,6 @@ function initSideNav() {
 }
 document.addEventListener('DOMContentLoaded', initSideNav);
 
-// --- 5. GESTIONE RSVP FORM ---
-const scriptURL = 'https://script.google.com/macros/s/AKfycbyjDJF8iA92BDmHX8IA8N-0gBYK9ESBDUa1sur8IWE61pErRoLbdK3raaFHERdZpiqtdA/exec'; // <--- MODIFICA QUI
-const form = document.forms['submit-to-google-sheet'];
-const msg = document.getElementById('form-message');
-const btn = document.getElementById('btn-submit');
-
-if (form) {
-    form.addEventListener('submit', e => {
-        e.preventDefault();
-
-        // Effetto caricamento
-        btn.innerHTML = "INVIO IN CORSO...";
-        btn.style.opacity = "0.7";
-
-        fetch(scriptURL, { method: 'POST', body: new FormData(form) })
-            .then(response => {
-                msg.innerHTML = "Grazie! La tua risposta è stata registrata! 🧡";
-                msg.style.color = "white";
-                btn.innerHTML = "INVIATO!";
-                btn.style.backgroundColor = "#4CAF50"; // Verde successo
-
-                // Reset form dopo 3 secondi
-                setTimeout(() => {
-                    form.reset();
-                    btn.innerHTML = "CONFERMA";
-                    btn.style.backgroundColor = ""; // Torna marrone
-                    btn.style.opacity = "1";
-                    msg.innerHTML = "";
-                }, 5000);
-            })
-            .catch(error => {
-                msg.innerHTML = "Ops! Qualcosa è andato storto. Riprova.";
-                msg.style.color = "#ffcccc";
-                btn.innerHTML = "RIPROVA";
-                console.error('Error!', error.message);
-            });
-    });
-}
-
 // --- 6. ANIMAZIONE GENERALE BLOCCHI (Reveal on Scroll) ---
 function initBlockAnimations() {
     // Seleziona tutti gli elementi che devono essere animati

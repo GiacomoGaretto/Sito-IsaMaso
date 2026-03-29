@@ -556,134 +556,6 @@ p {
     padding-bottom: 0;
 }
 
-/* --- RSVP FORM SECTION --- */
-.rsvp-section {
-    background-color: var(--accent);
-    /* Sfondo Arancione */
-    padding: 80px 0;
-    display: flex;
-    justify-content: center;
-    min-height: auto;
-    /* Non forziamo 90vh qui */
-}
-
-.rsvp-container {
-    background-color: rgba(255, 255, 255, 0.1);
-    /* Leggermente più chiaro dello sfondo */
-    border: 2px solid rgba(255, 255, 255, 0.3);
-    border-radius: 20px;
-    padding: 40px;
-    width: 100%;
-    max-width: 700px;
-    text-align: center;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-}
-
-.rsvp-container form {
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-    text-align: left;
-}
-
-.form-row {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 20px;
-}
-
-.form-group label {
-    font-family: var(--font-hand);
-    color: white;
-    font-size: 1.2rem;
-    display: block;
-    margin-bottom: 5px;
-}
-
-/* Stile Input (Coerente con tema chiaro: Sfondo Crema, Testo Marrone) */
-input[type="text"],
-input[type="email"],
-select,
-textarea {
-    width: 100%;
-    padding: 12px;
-    border-radius: 8px;
-    border: none;
-    background-color: var(--bg-color);
-    /* Crema */
-    color: var(--text-main);
-    /* Marrone */
-    font-family: var(--font-clean);
-    font-size: 1rem;
-    box-sizing: border-box;
-    outline: none;
-    transition: transform 0.2s;
-}
-
-input:focus,
-select:focus,
-textarea:focus {
-    transform: scale(1.01);
-    box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.4);
-}
-
-/* Opzioni Dieta */
-.diet-options {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 20px;
-    background-color: rgba(255, 255, 255, 0.1);
-    padding: 15px;
-    border-radius: 10px;
-}
-
-.toggle-group label {
-    margin-bottom: 8px;
-    font-weight: bold;
-}
-
-.radio-options {
-    display: flex;
-    gap: 15px;
-    color: white;
-    font-family: var(--font-clean);
-}
-
-.radio-options input {
-    margin-right: 5px;
-    accent-color: var(--text-main);
-    /* Colore pallino radio */
-}
-
-/* Bottone */
-#btn-submit {
-    background-color: var(--text-main);
-    /* Marrone */
-    color: white;
-    font-family: var(--font-display);
-    font-size: 2rem;
-    border: none;
-    padding: 10px 30px;
-    border-radius: 50px;
-    cursor: pointer;
-    margin-top: 20px;
-    transition: transform 0.2s, background-color 0.2s;
-    width: 100%;
-}
-
-#btn-submit:hover {
-    transform: scale(1.05);
-    background-color: #4a0f06;
-}
-
-#form-message {
-    font-family: var(--font-hand);
-    font-size: 1.5rem;
-    color: white;
-    margin-top: 15px;
-    min-height: 30px;
-}
-
 /* --- ANIMAZIONI ENTRATA BLOCCHI (Reveal) --- */
 
 /* Stato Iniziale: Nascosto, spostato in basso, pronto a muoversi */
@@ -931,123 +803,6 @@ a.text-link:hover {
     background-color: rgba(255, 255, 255, 0.2);
 }
 
-/* --- NUOVO RSVP STYLE (MATCH BANK MODULE) --- */
-
-.wedding-rsvp-section {
-    padding: 4rem 0;
-    /* Usa lo sfondo chiaro per continuità */
-    background-color: var(--bg-color);
-}
-
-/* Griglia per mettere i campi affiancati */
-.form-grid-2 {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 15px;
-    margin-bottom: 15px;
-}
-
-/* IL CONTENITORE INPUT (La "Card") */
-.wedding-input-card,
-.wedding-check-card {
-    background-color: white;
-    border: 1px solid rgba(97, 20, 8, 0.15);
-    /* Marrone leggero */
-    border-radius: 12px;
-    padding: 10px 15px;
-    display: flex;
-    flex-direction: column;
-    transition: border-color 0.3s, box-shadow 0.3s;
-    margin-bottom: 15px;
-    /* Spazio verticale tra le righe singole */
-}
-
-/* Effetto Focus: Quando clicchi, il bordo diventa Arancione */
-.wedding-input-card:focus-within {
-    border-color: var(--accent);
-    box-shadow: 0 4px 12px rgba(240, 129, 74, 0.1);
-}
-
-/* L'Etichetta (Font a mano) */
-.wic-label {
-    font-family: var(--font-hand);
-    font-size: 0.9rem;
-    color: var(--accent);
-    /* Arancione */
-    margin-bottom: 2px;
-}
-
-/* Il Campo di Input vero e proprio */
-.wic-input {
-    border: none;
-    background: transparent;
-    font-family: var(--font-clean);
-    font-size: 1.1rem;
-    color: var(--text-main);
-    padding: 5px 0;
-    width: 100%;
-    outline: none;
-    /* Rimuoviamo il bordo blu standard */
-    font-weight: 500;
-}
-
-.wic-input::placeholder {
-    color: #ccc;
-    font-weight: 300;
-}
-
-/* Stile specifico per la Select */
-.wic-select {
-    cursor: pointer;
-    background-image: url("data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%23611408%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.5-12.8z%22%2F%3E%3C%2Fsvg%3E");
-    background-repeat: no-repeat;
-    background-position: right 0 top 50%;
-    background-size: 12px auto;
-    appearance: none;
-    /* Nasconde la freccia nativa */
-    padding-right: 20px;
-}
-
-/* --- RADIO BUTTONS STILIZZATI (SI/NO) --- */
-.radio-group {
-    display: flex;
-    gap: 10px;
-    margin-top: 5px;
-}
-
-.radio-option {
-    cursor: pointer;
-    flex: 1;
-    /* Occupano lo stesso spazio */
-}
-
-/* Nascondiamo il pallino nativo brutto */
-.radio-option input[type="radio"] {
-    display: none;
-}
-
-/* Creiamo il nostro bottone "Chip" */
-.radio-chip {
-    display: block;
-    text-align: center;
-    padding: 6px 0;
-    border-radius: 6px;
-    border: 1px solid #eee;
-    background-color: #fafafa;
-    color: #999;
-    font-family: var(--font-clean);
-    font-size: 0.9rem;
-    transition: all 0.2s;
-}
-
-/* Stato Selezionato */
-.radio-option input[type="radio"]:checked+.radio-chip {
-    background-color: var(--accent);
-    color: white;
-    border-color: var(--accent);
-    font-weight: 600;
-}
-
 /* --- GOOGLE MAPS STYLE --- */
 
 /* Forza l'altezza del contenitore mappa */
@@ -1081,13 +836,6 @@ a.text-link:hover {
 
 /* Mobile Adjustments */
 @media (max-width: 768px) {
-    .form-grid-2 {
-        grid-template-columns: 1fr;
-        /* Una colonna su mobile */
-        gap: 0;
-    }
-}
-
 /* --- 1. POSIZIONAMENTO SVG INTRO (Statico) --- */
 
 /* La sezione diventa il riferimento per il posizionamento assoluto */
@@ -1295,18 +1043,6 @@ a.text-link:hover {
         display: none;
     }
 
-    .form-row {
-        grid-template-columns: 1fr;
-    }
-
-    .diet-options {
-        grid-template-columns: 1fr;
-    }
-
-    .rsvp-container {
-        padding: 20px;
-    }
-
     .bank-card {
         padding: 12px 15px;
     }
@@ -1340,12 +1076,6 @@ a.text-link:hover {
         height: 100%;
         display: block;
         /* Rimuove spazietto fantasma sotto gli SVG */
-    }
-
-    .wedding-rsvp-section {
-        /* Aumentiamo drasticamente lo spazio sotto */
-        /* Prima era circa 4rem, lo portiamo a 8rem o più */
-        padding-bottom: 150px !important;
     }
 
     .btn-wedding,
